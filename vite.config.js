@@ -13,7 +13,7 @@ export default defineConfig({
       manifest: {
         name: 'Seekers',
         short_name: 'Seekers',
-        description: 'Seekers is an app for curious kids to explore and learn.',
+        description: 'Pokemon GO for curiosity',
         theme_color: '#7C3AED',
         icons: [
           {
