@@ -15,6 +15,7 @@ const Home = ({ setImage }) => {
 
   return (
     <div className="w-full h-full flex flex-col items-center justify-center">
+      <img src="/logo.png" alt="logo" className="mb-5 w-[200px]" />
       <img src="/camera.png" alt="camera" className="mx-16 mb-10" />
 
       <div className="w-full flex">

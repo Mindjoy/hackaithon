@@ -28,6 +28,8 @@ const Project = ({ question }) => {
     <>
       {isLoading && (
         <>
+          <h4 className="font-semibold mb-10 text-xl">Great question! What can we create?</h4>
+
           <div className="h-[200px] animate-background-relaxed ring-gray-700/10 bg-gray-300 text-left mb-5 w-full rounded-xl" />
           <div className="h-[200px] animate-background-bright ring-gray-700/10 bg-gray-300 text-left mb-5 w-full rounded-xl" />
           <div className="h-[200px] animate-background-fun ring-gray-700/10 bg-gray-300 text-left mb-5 w-full rounded-xl" />
