@@ -22,25 +22,27 @@ const App = () => {
   })
 
   return (
-    <QueryClientProvider client={queryClient}>
-      <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<Home setImage={setImage} />} />
+    <div className="ml-auto mr-auto h-full max-w-[500px]">
+      <QueryClientProvider client={queryClient}>
+        <BrowserRouter>
+          <Routes>
+            <Route path="/" element={<Home setImage={setImage} />} />
 
-          <Route path="/question" element={
-            <Question
-              image={image}
-              question={question}
-              setQuestion={setQuestion}
-            />}
-          />
+            <Route path="/question" element={
+              <Question
+                image={image}
+                question={question}
+                setQuestion={setQuestion}
+              />}
+            />
 
-          <Route path="/project" element={
-            <Project question={question} />}
-          />
-        </Routes>
-      </BrowserRouter>
-    </QueryClientProvider>
+            <Route path="/project" element={
+              <Project question={question} />}
+            />
+          </Routes>
+        </BrowserRouter>
+      </QueryClientProvider>
+    </div>
   )
 }
 
