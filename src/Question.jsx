@@ -46,7 +46,7 @@ const Question = ({ image, setQuestion }) => {
       <img className="rounded-lg mb-10 max-h-[400px] object-contain" src={image.url} alt="your photo" />
 
       <h4 className="font-semibold mb-10 text-xl">
-        {isLoading ? 'Take a moment to look and think 🤔' : 'What are you curious about?'}
+        {isLoading ? 'Take a moment to think of a question 🤔' : 'What are you curious about?'}
       </h4>
 
       {isLoading && (
