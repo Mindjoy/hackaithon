@@ -1,18 +1,20 @@
 import { useEffect, useRef } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, Link, Navigate } from 'react-router-dom'
 import { useMutation } from '@tanstack/react-query'
 
 import { client } from './api'
 
 const themes = [
-  'text-indigo-700 ring-indigo-700/10 bg-indigo-50',
-  'text-blue-700 ring-blue-700/10 bg-blue-50',
-  'text-green-700 ring-green-700/10 bg-green-50',
+  'text-indigo-700 ring-indigo-700 bg-indigo-50',
+  'text-blue-700 ring-blue-700 bg-blue-50',
+  'text-green-700 ring-green-700 bg-green-50',
 ]
 
 const Question = ({ image, setQuestion }) => {
   const navigate = useNavigate()
   const inputRef = useRef(null)
+
+  if (!image) return <Navigate to="/" />
 
   const { mutate: getCuriousity, isLoading: isLoadingCuriosity, data } = useMutation({
     mutationFn: async variables => await client.post('/curiosity-nudge', variables)
@@ -52,10 +54,10 @@ const Question = ({ image, setQuestion }) => {
           <div className="flex flex-row flex-wrap gap-3 mb-10">
             <div className="w-[100px] h-[44px] animate-background-bright inline-flex items-center rounded-full px-4 py-2 text-lg font-mediu ring-1 ring-inset ring-gray-600/20" />
             <div className="w-[100px] h-[44px] animate-background-bright inline-flex items-center rounded-full px-4 py-2 text-lg font-mediu ring-1 ring-inset ring-gray-600/20" />
-            <div className="w-[100px] h-[44px] animate-background-bright items-center rounded-full bg-purple-300 px-4 py-2 text-lg font-mediu ring-1 ring-inset ring-gray-600/20" />
+            <div className="w-[100px] h-[44px] animate-background-bright items-center rounded-full px-4 py-2 text-lg font-mediu ring-1 ring-inset ring-gray-600/20" />
           </div>
 
-          <div className="w-full h-[50px] rounded-lg mb-5 px-4 py-2 bg-blue-300 animate-background-relaxed" />
+          <div className="w-full h-[50px] rounded-lg mb-10 px-4 py-2 bg-blue-300 animate-background-relaxed" />
         </>
       )}
 
@@ -69,7 +71,7 @@ const Question = ({ image, setQuestion }) => {
                   setQuestion(question)
                   navigate('/project')
                 }}
-                className={"inline-flex items-center rounded-full bg-violet-50 px-4 py-2 text-lg font-medium text-violet-700 ring-1 ring-inset ring-violet-600/20" + themes[i % 3]}>
+                className={"inline-flex items-center rounded-full px-4 py-2 text-lg font-medium ring-1 ring-inset" + themes[i % 3]}>
                 {thematicTag}
               </button>
             ))}
@@ -78,12 +80,12 @@ const Question = ({ image, setQuestion }) => {
       }
 
       {!isLoading && (
-        <div className="relative w-full mb-5">
+        <div className="relative w-full mb-10">
           <input
             ref={inputRef}
-            className="w-full h-[50px] rounded-lg px-4 py-2 text-lg font-medium ring-1 ring-inset ring-gray-600/20"
+            className="w-full h-[50px] rounded-lg px-4 py-2 text-lg font-medium ring-1 ring-inset ring-gray-600"
             type="text"
-            placeholder="Or ask your question"
+            placeholder="Or ask your question here"
           />
 
           <button
@@ -97,9 +99,12 @@ const Question = ({ image, setQuestion }) => {
         </div>
       )}
 
-      {isError && <p className="text-center">Something went wrong. Please try again.</p>}
+      {isError && <p className="text-center">Oops, something went wrong. Please try again.</p>}
 
-
+      <Link className="flex items-center justify-center pb-5" to="/">
+        <img className="w-5 h-5 mr-1" src="/restart.svg" />
+        Start again
+      </Link>
     </div >
   )
 }

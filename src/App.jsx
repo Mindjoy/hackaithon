@@ -5,11 +5,13 @@ import { Routes, Route, BrowserRouter } from 'react-router-dom'
 import Home from './Home'
 import Question from './Question'
 import Project from './Project'
+import Result from './Result'
 import './App.css'
 
 const App = () => {
   const [image, setImage] = useState(null)
   const [question, setQuestion] = useState(null)
+  const [project, setProject] = useState(null)
   const queryClient = new QueryClient({
     defaultOptions: {
       queries: {
@@ -37,7 +39,11 @@ const App = () => {
             />
 
             <Route path="/project" element={
-              <Project question={question} />}
+              <Project question={question} setProject={setProject} />}
+            />
+
+            <Route path="/project" element={
+              <Result project={project} />}
             />
           </Routes>
         </BrowserRouter>
