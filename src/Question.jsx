@@ -14,10 +14,9 @@ const Question = ({ image, setQuestion }) => {
   const navigate = useNavigate()
   const inputRef = useRef(null)
 
-  if (!image) return <Navigate to="/" />
-
   const { mutate: getCuriousity, isLoading: isLoadingCuriosity, data } = useMutation({
-    mutationFn: async variables => await client.post('/curiosity-nudge', variables)
+    mutationFn: async variables => await client.post('/curiosity-nudge', variables),
+    retry: 2
   })
 
   const nudges = data?.data?.response
@@ -34,10 +33,12 @@ const Question = ({ image, setQuestion }) => {
   })
 
   useEffect(() => {
-    if (image.file) {
+    if (image?.file) {
       getLabels({ image: image.file })
     }
   }, [image.file, getLabels])
+
+  if (!image) return <Navigate to="/" />
 
   const isLoading = isLoadingCuriosity || isLoadingLabels
 
@@ -99,7 +100,7 @@ const Question = ({ image, setQuestion }) => {
         </div>
       )}
 
-      {isError && <p className="text-center">Oops, something went wrong. Please try again.</p>}
+      {isError && <p className="text-center mb-5">Oops, something went wrong. Please try again.</p>}
 
       <Link className="flex items-center justify-center pb-5" to="/">
         <img className="w-5 h-5 mr-1" src="/restart.svg" />

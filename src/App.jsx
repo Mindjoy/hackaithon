@@ -42,7 +42,7 @@ const App = () => {
               <Project question={question} setProject={setProject} />}
             />
 
-            <Route path="/project" element={
+            <Route path="/result" element={
               <Result project={project} />}
             />
           </Routes>

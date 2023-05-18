@@ -1,6 +1,6 @@
 import { useEffect } from 'react'
 import { useMutation } from '@tanstack/react-query'
-import { Link, Navigate } from 'react-router-dom'
+import { Link, Navigate, useNavigate } from 'react-router-dom'
 
 import { client } from './api'
 
@@ -13,7 +13,8 @@ const themes = [
   'text-violet-700 ring-violet-700 bg-violet-50',
 ]
 
-const Project = ({ question }) => {
+const Project = ({ question, setProject }) => {
+  const navigate = useNavigate()
   const { mutate: generateProject, isLoading, isError, data } = useMutation({
     mutationFn: async variables => await client.post('/generate-project-template', variables),
     retry: 2
@@ -42,11 +43,17 @@ const Project = ({ question }) => {
       {!isLoading && <h4 className="font-semibold mb-10 text-xl">What should we create?</h4>}
 
       {sections && sections.map((section, i) => (
-        <div key={i} className={'transition-opacity duration-300 opacity-100 ease-in-out motion-reduce:transition-none text-left mb-5 w-full rounded-xl p-4 font-medium ring-1 ring-inset' + themes[i % 6]}>
+        <button
+          onClick={() => {
+            setProject(section.projectIdea)
+            navigate('/result')
+          }}
+          key={i}
+          className={'transition-opacity duration-300 opacity-100 ease-in-out motion-reduce:transition-none text-left mb-5 w-full rounded-xl p-4 font-medium ring-1 ring-inset' + themes[i % 6]}>
           <h2 className="font-bold text-2xl mb-3">{section.projectTag}</h2>
 
           <p>{section.projectIdea}</p>
-        </div>
+        </button>
       ))
       }
 
