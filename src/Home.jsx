@@ -15,7 +15,7 @@ const Home = ({ setImage }) => {
 
   return (
     <div className="w-full h-full flex flex-col items-center justify-center">
-      <img src="/camera.png" alt="camera" className="mx-12 mb-10" />
+      <img src="/camera.png" alt="camera" className="mx-16 mb-10" />
 
       <div className="w-full flex">
         <label
@@ -29,7 +29,7 @@ const Home = ({ setImage }) => {
           type="file"
           className="hidden"
           accept="image/*"
-          capture="user"
+          capture="environment"
           onChange={handleFileUpload} />
       </div>
     </div>

@@ -1,26 +1,18 @@
-import { useEffect } from 'react'
+import { useEffect, useRef } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useMutation } from '@tanstack/react-query'
 
 import { client } from './api'
 
-const questions = [
-  {
-    question: "What is the most popular car in the world?",
-    theme: "Automobiles",
-  },
-  {
-    question: "What is the fastest road car in the world?",
-    theme: "Sports cars",
-  },
-  {
-    question: "How to tyes work?",
-    theme: "Wheels",
-  }
+const themes = [
+  'text-indigo-700 ring-indigo-700/10 bg-indigo-50',
+  'text-blue-700 ring-blue-700/10 bg-blue-50',
+  'text-green-700 ring-green-700/10 bg-green-50',
 ]
 
 const Question = ({ image, setQuestion }) => {
   const navigate = useNavigate()
+  const inputRef = useRef(null)
 
   const { mutate: getCuriousity, isLoading: isLoadingCuriosity, data } = useMutation({
     mutationFn: async variables => await client.post('/curiosity-nudge', variables)
@@ -45,40 +37,70 @@ const Question = ({ image, setQuestion }) => {
     }
   }, [image.file, getLabels])
 
+  const isLoading = isLoadingCuriosity || isLoadingLabels
+
   return (
     <div className="flex flex-col items-center">
       <img className="rounded-lg mb-10 max-h-[400px] object-contain" src={image.url} alt="your photo" />
 
-      <h4 className="font-semibold mb-5 text-xl">What would you like to know about?</h4>
+      <h4 className="font-semibold mb-10 text-xl">
+        {isLoading ? 'Take a moment to look and think 🤔' : 'What are you curious about?'}
+      </h4>
 
-      {(isLoadingLabels || isLoadingCuriosity) && (
-        <div className="flex flex-row flex-wrap gap-3 mb-10">
-          <div className="w-[100px] h-[44px] animate-pulse inline-flex items-center rounded-full bg-gray-300 px-4 py-2 text-lg font-mediu ring-1 ring-inset ring-gray-600/20" />
-          <div className="w-[100px] h-[44px] animate-pulse inline-flex items-center rounded-full bg-gray-300 px-4 py-2 text-lg font-mediu ring-1 ring-inset ring-gray-600/20" />
-          <div className="w-[100px] h-[44px] animate-pulse inline-flex items-center rounded-full bg-gray-300 px-4 py-2 text-lg font-mediu ring-1 ring-inset ring-gray-600/20" />
+      {isLoading && (
+        <>
+          <div className="flex flex-row flex-wrap gap-3 mb-10">
+            <div className="w-[100px] h-[44px] animate-background-bright inline-flex items-center rounded-full px-4 py-2 text-lg font-mediu ring-1 ring-inset ring-gray-600/20" />
+            <div className="w-[100px] h-[44px] animate-background-bright inline-flex items-center rounded-full px-4 py-2 text-lg font-mediu ring-1 ring-inset ring-gray-600/20" />
+            <div className="w-[100px] h-[44px] animate-background-bright items-center rounded-full bg-purple-300 px-4 py-2 text-lg font-mediu ring-1 ring-inset ring-gray-600/20" />
+          </div>
+
+          <div className="w-full h-[50px] rounded-lg mb-5 px-4 py-2 bg-blue-300 animate-background-relaxed" />
+        </>
+      )}
+
+      {
+        nudges && (
+          <div className="flex flex-row flex-wrap gap-3 mb-10">
+            {nudges.map(({ thematicTag, question }, i) => (
+              <button
+                key={thematicTag}
+                onClick={() => {
+                  setQuestion(question)
+                  navigate('/project')
+                }}
+                className={"inline-flex items-center rounded-full bg-violet-50 px-4 py-2 text-lg font-medium text-violet-700 ring-1 ring-inset ring-violet-600/20" + themes[i % 3]}>
+                {thematicTag}
+              </button>
+            ))}
+          </div>
+        )
+      }
+
+      {!isLoading && (
+        <div className="relative w-full mb-5">
+          <input
+            ref={inputRef}
+            className="w-full h-[50px] rounded-lg px-4 py-2 text-lg font-medium ring-1 ring-inset ring-gray-600/20"
+            type="text"
+            placeholder="Or ask your question"
+          />
+
+          <button
+            onClick={() => {
+              setQuestion(inputRef.current.value)
+              navigate('/project')
+            }}
+            className="absolute right-0 top-0 bottom-0 rounded-md">
+            <img className="w-8 h-8 mr-2" src="/arrow-forward.svg" />
+          </button>
         </div>
       )}
 
       {isError && <p className="text-center">Something went wrong. Please try again.</p>}
 
 
-
-      {nudges && (
-        <div className="flex flex-row flex-wrap gap-3 mb-10">
-          {nudges.map(({ thematicTag, question }) => (
-            <button
-              key={thematicTag}
-              onClick={() => {
-                setQuestion(question)
-                navigate('/project')
-              }}
-              className="inline-flex items-center rounded-full bg-violet-50 px-4 py-2 text-lg font-medium text-violet-700 ring-1 ring-inset ring-violet-600/20">
-              {thematicTag}
-            </button>
-          ))}
-        </div>
-      )}
-    </div>
+    </div >
   )
 }
 
