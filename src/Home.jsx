@@ -33,8 +33,8 @@ const Home = ({ setImage }) => {
           capture="environment"
           onChange={handleFileUpload} />
       </div>
-      <div className="flex flex-col items-center">
-        <p className="mt-10 mb-5">Powered by</p>
+      <div className="flex flex-col items-center mt-10">
+        <p className="mt-10 mb-3">Powered by</p>
         <img src="/mindjoy-logo.svg" alt="logo" className="w-[100px]" />
       </div>
     </div>
