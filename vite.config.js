@@ -11,8 +11,8 @@ export default defineConfig({
       devOptions: { enabled: true },
       includeAssets: ['favicon.ico', 'pwa-small.png', 'pwa-large.png', 'apple-touch-icon.png'],
       manifest: {
-        name: 'Seekers',
-        short_name: 'Seekers',
+        name: 'Seeker',
+        short_name: 'Seeker',
         description: 'Pokemon GO for curiosity',
         theme_color: '#7C3AED',
         icons: [
